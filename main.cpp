@@ -1,7 +1,3 @@
-// Garry's Mod Lua Cache Extractor
-// See LICENSE distributed with this file
-// for licensing details.
-
 #include "Bootil/Bootil.h"
 
 using namespace Bootil;
@@ -10,15 +6,19 @@ int main( int argc, char** argv )
 {
 	CommandLine::Set( argc, argv );
 
-	BString strInFolder = CommandLine::GetArg( 0, Platform::CurrentDir() );
-	BString strOutFolder = CommandLine::GetArg( 1, Platform::CurrentDir() );
+	BString strInFolder = CommandLine::GetArg( 0, "" );
+	BString strOutFolder = CommandLine::GetArg( 1, strInFolder );
 
-	String::List listFiles;
-	File::GetFilesInFolder(strInFolder, listFiles, false);
+	if (strInFolder == "")
+		Output::Error("Usage: gmluaextract <in> [out]");
 
-	Output::Msg( "Converting %i files.\n", listFiles.size() );
+	String::List files;
+	String::List folders;
+	File::Find( &files, &folders, strInFolder + "/*.lua", false );
 
-	BOOTIL_FOREACH_CONST(f, listFiles, String::List)
+	Output::Msg( "Converting %i files.\n", files.size() );
+
+	BOOTIL_FOREACH_CONST(f, files, String::List)
 	{
 		AutoBuffer inBuf;
 		File::Read(strInFolder + "/" + *f, inBuf);
