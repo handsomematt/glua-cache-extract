@@ -10,7 +10,7 @@ int main( int argc, char** argv )
 	BString strOutFolder = CommandLine::GetArg( 1, strInFolder );
 
 	if (strInFolder == "")
-		Output::Error("Usage: gmluaextract <in> [out]");
+		Output::Error("Usage: gluaextract <in> [out]");
 
 	String::List files;
 	String::List folders;
