@@ -4,7 +4,12 @@ using namespace Bootil;
 
 int main( int argc, char** argv )
 {
+	Debug::SuppressPopups( true );
 	CommandLine::Set( argc, argv );
+	
+	Console::FGColorPush( Console::Green );
+    Output::Msg( "GMod Lua Cache Extractor 1.0\n\n" );
+    Console::FGColorPop();
 
 	BString strInFolder = CommandLine::GetArg( 0, "" );
 	BString strOutFolder = CommandLine::GetArg( 1, strInFolder );
@@ -15,7 +20,8 @@ int main( int argc, char** argv )
 	String::List files;
 	String::List folders;
 	File::Find( &files, &folders, strInFolder + "/*.lua", false );
-
+	File::CreateFolder(strOutFolder);
+	
 	Output::Msg( "Converting %i files.\n", files.size() );
 
 	BOOTIL_FOREACH_CONST(f, files, String::List)
