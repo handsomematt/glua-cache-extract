@@ -20,6 +20,11 @@ solution "gluacacheextract"
 		links "bootil_static"
 		includedirs "Bootil/include"
 
+        if os.is( "linux" ) then
+                buildoptions { "-fPIC", "-pthread" }
+                linkoptions { "-pthread" }
+        end
+
 		files { "src/main.cpp" }
 
 	include "Bootil/projects/bootil_premake5.lua"
