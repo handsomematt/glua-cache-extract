@@ -2,6 +2,22 @@
 
 using namespace Bootil;
 
+void decompress(BString& in, BString& out)
+{
+	Output::Msg("%s", in.c_str());
+
+	AutoBuffer inBuf;
+	File::Read(in, inBuf);
+
+	// Extract using LZMA with 32 bytes as base
+	AutoBuffer outBuf;
+	Compression::LZMA::Extract(inBuf.GetBase(32), inBuf.GetSize() - 32, outBuf);
+
+	File::Write(out, outBuf);
+
+	Output::Msg(" -> %s (%i bytes)\n", out.c_str(), outBuf.GetSize());
+}
+
 int main( int argc, char** argv )
 {
 	Debug::SuppressPopups( true );
@@ -18,23 +34,14 @@ int main( int argc, char** argv )
 	File::Find(&files, &folders, strInFolder + "/*.lua", false);
 	File::CreateFolder(strOutFolder);
 	
-	Output::Msg("Converting %i files", files.size());
+	Output::Msg("Converting %i files\n", files.size());
 
 	BOOTIL_FOREACH_CONST(f, files, String::List)
 	{
-		Output::Msg(".");
-
-		AutoBuffer inBuf;
-		File::Read(strInFolder + "/" + *f, inBuf);
-
-		// Extract using LZMA (first 4 bytes are junk)
-		AutoBuffer outBuf;
-		Compression::LZMA::Extract(inBuf.GetBase(4), inBuf.GetSize()-4, outBuf);
-
-		File::Write(strOutFolder + "/" + *f, outBuf);
+		decompress(strInFolder + "/" + *f, strOutFolder + "/" + *f);
 	}
 
-	Output::Msg(" Done!\n");
+	Output::Msg("Done!\n");
 
 	return 0;
 }
