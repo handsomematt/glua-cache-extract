@@ -7,6 +7,7 @@ Very simple utility application to extract the LZMA compressed Lua cache downloa
 This program decompiles the **WHOLE** lua folder, not just one file.
 Therefore, you must provide the garrysmod\lua folder as the first argument.
 
+
 NOTE: Without setting a custom output folder, this WILL OVERRIDE all exsisting files with their decompiled versions.
 Make sure to set the output folder to somewhere else to avoid having to redownload the original files.
 
