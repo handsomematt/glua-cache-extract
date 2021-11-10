@@ -38,7 +38,9 @@ int main( int argc, char** argv )
 
 	BOOTIL_FOREACH_CONST(f, files, String::List)
 	{
-		decompress(strInFolder + "/" + *f, strOutFolder + "/" + *f);
+		BString strInFile = strInFolder + "/" + *f;
+		BString strOutFile = strOutFolder + "/" + *f;
+		decompress(strInFile, strOutFile);
 	}
 
 	Output::Msg("Done!\n");
